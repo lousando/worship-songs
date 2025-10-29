@@ -45,7 +45,7 @@ init _ =
         Http.get
            {
                 -- todo: update to a real endpoint
-                url = "/api/songs",
+                url = "https://songs.lousando.xyz/api/songs",
                 expect = Http.expectJson
                                 SongResults songResultDecoder
            }
@@ -96,5 +96,14 @@ view model =
     [
         input [ placeholder "Search...", value model.query, onInput Search ] [],
         ul []
-            (List.map (\r -> li[][text r.name]) model.results)
+            (
+                model.results
+                |> List.filter (\r -> String.contains
+                                        (String.toLower model.query)
+                                        (String.toLower r.name))
+                |> List.map (\r -> li[]
+                    [
+                        text (r.name ++ String.repeat 30 "." ++ String.fromInt r.page)
+                    ])
+            )
     ]
