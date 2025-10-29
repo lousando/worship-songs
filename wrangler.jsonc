@@ -1,0 +1,23 @@
+{
+	"name": "worship-songs",
+	"compatibility_date": "2025-09-15",
+	"workers_dev": true,
+	"main": "./backend/index.ts",
+	"assets": {
+		"directory": "./dist/"
+	},
+	"preview_urls": true,
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"routes": [
+		{
+			"pattern": "songs.lousando.xyz",
+			"custom_domain": true
+		}
+	],
+	"vars": {
+		"TURSO_DATABASE_URL": "libsql://rc-west-main-church-of-christ-lousando.aws-us-west-2.turso.io"
+	}
+}

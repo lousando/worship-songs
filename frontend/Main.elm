@@ -31,7 +31,7 @@ type alias Model =
 type alias Song =
     {
         name: String,
-        pageNumber: String
+        page: Int
     }
 
 init : () -> (Model, Cmd Msg)
@@ -45,7 +45,7 @@ init _ =
         Http.get
            {
                 -- todo: update to a real endpoint
-                url = "https://jsonplaceholder.typicode.com/posts",
+                url = "/api/songs",
                 expect = Http.expectJson
                                 SongResults songResultDecoder
            }
@@ -58,7 +58,7 @@ songResultDecoder =
     Json.Decode.list (
         Json.Decode.map2 Song
             (field "name" Json.Decode.string)
-            (field "pageNumber" Json.Decode.string)
+            (field "page" Json.Decode.int)
     )
 
 -- Update
