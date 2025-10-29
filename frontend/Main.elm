@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, div, text, input, ul, li)
+import Html exposing (Html, div, text, input, ul, li, h1, span)
 import Html.Attributes exposing (class, placeholder, value)
 import Html.Events exposing (onInput)
 import List
@@ -99,16 +99,29 @@ view : Model -> Html Msg
 view model =
   div [ class "flex flex-col items-center" ]
     [
-        input [ Html.Attributes.type_ "search", placeholder "Search...", value model.query, onInput Search, class "w-full" ] [],
-        ul [ class "flex flex-col items-center" ]
+        h1 [] [ text "Worship Songs" ],
+        input [
+            Html.Attributes.type_ "search",
+            placeholder "Search...",
+            value model.query,
+            onInput Search,
+            class "w-full"
+        ] [],
+        div [ class "flex flex-col w-full" ]
             (
                 model.results
                 |> List.filter (\r -> String.contains
                                         (String.toLower model.query)
                                         (String.toLower r.name))
-                |> List.map (\r -> li[]
-                    [
-                        text (r.name ++ String.repeat 30 "." ++ String.fromInt r.page)
-                    ])
+                |> List.map songRow
             )
     ]
+
+-- View Utilities
+
+songRow row =
+    div[ class "flex flex-row justify-between text-lg" ]
+        [
+            span [ class "text-left truncate" ] [text row.name],
+            span [ class "text-right basis-[4ch]" ] [text (String.fromInt row.page)]
+        ]
