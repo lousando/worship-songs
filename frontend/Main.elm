@@ -106,7 +106,7 @@ update msg model =
   case msg of
     Search newQuery ->
         (
-            { model | query = newQuery |> String.toLower |> String.trim },
+            { model | query = newQuery },
             Cmd.none
         )
     SongResults httpResponse ->
@@ -119,7 +119,7 @@ update msg model =
 -- Subscriptions
 
 subscriptions: Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
   Sub.none
 
 -- View
@@ -152,11 +152,20 @@ view model =
     ]
 
 -- View Utilities
+cleanSongName: String -> String
+cleanSongName name =
+    name
+    |> String.toLower
+    |> String.trim
+    -- todo: sanitize DB so these cases aren't needed
+    |> String.replace "'" ""
+    |> String.replace "’" ""
+
 songFilter: String -> String -> Bool
 songFilter query songName =
     String.contains
-        query
-        (songName |> String.toLower |> String.trim)
+        (cleanSongName query)
+        (cleanSongName songName)
 
 songRow: Int -> Song -> Html msg
 songRow index row =
