@@ -113,15 +113,27 @@ view model =
                 |> List.filter (\r -> String.contains
                                         (String.toLower model.query)
                                         (String.toLower r.name))
-                |> List.map songRow
+                |> List.indexedMap songRow
             )
     ]
 
 -- View Utilities
+songRow: Int -> Song -> Html msg
+songRow index row =
+    div[
+        class "flex flex-row justify-between leading-8 text-base",
+        class (songRowColor index)
+    ]
+    [
+        span [ class "text-left truncate" ] [text row.name],
+        span [ class "text-right basis-[4ch]" ] [text (String.fromInt row.page)]
+    ]
 
-songRow row =
-    div[ class "flex flex-row justify-between text-lg" ]
-        [
-            span [ class "text-left truncate" ] [text row.name],
-            span [ class "text-right basis-[4ch]" ] [text (String.fromInt row.page)]
-        ]
+songRowColor: Int -> String
+songRowColor index =
+    -- even
+    if ((modBy 2 index) == 0) then
+        "bg-slate-100"
+    -- odd
+    else
+        "bg-slate-300"
