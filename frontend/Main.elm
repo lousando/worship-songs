@@ -11,7 +11,7 @@ import Json.Decode exposing (Decoder, field)
 -- Main
 
 main =
-  Browser.document
+  Browser.element
   {
     init = init,
     update = update,
@@ -95,12 +95,12 @@ subscriptions model =
 
 -- View
 
-view : Model -> Browser.Document Msg
+view : Model -> Html Msg
 view model =
-  Browser.Document "Worship Songs"
+  div [ class "flex flex-col items-center" ]
     [
-        input [ Html.Attributes.type_ "search", placeholder "Search...", value model.query, onInput Search ] [],
-        ul []
+        input [ Html.Attributes.type_ "search", placeholder "Search...", value model.query, onInput Search, class "w-full" ] [],
+        ul [ class "flex flex-col items-center" ]
             (
                 model.results
                 |> List.filter (\r -> String.contains
