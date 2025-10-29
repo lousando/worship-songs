@@ -14,6 +14,12 @@ bun install
 ```
 
 ```bash
-# start the dev server
+# start the frontend dev server
 bun watch
+```
+
+```bash
+# start the backend dev server
+# this is needed so you can fetch songs
+bunx wrangler dev
 ```
