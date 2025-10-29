@@ -7,20 +7,14 @@ import Html.Events exposing (onInput)
 import List
 import Http
 import Json.Decode exposing (Decoder, field)
+import Json.Encode
 
 -- Main
 
 main =
   Browser.element
   {
-    init = (
-        \value ->
-          case (Json.Decode.decodeValue flagDecoder value) of
-              Ok flags ->
-                  init flags
-              Err _ ->
-                 init { favorites = [] }
-    ),
+    init = init,
     update = update,
     subscriptions = subscriptions,
     view = view
@@ -58,15 +52,25 @@ type alias Song =
         page: Int
     }
 
-init: Flags -> (Model, Cmd Msg)
-init flags =
+init: Json.Encode.Value -> (Model, Cmd Msg)
+init rawFlags =
     (
-        {
-            loading = True,
-            query = "",
-            results = [],
-            favorites = flags.favorites
-        },
+        case (Json.Decode.decodeValue flagDecoder rawFlags) of
+          Ok flags ->
+            {
+                loading = True,
+                query = "",
+                results = [],
+                favorites = flags.favorites
+            }
+          Err _ ->
+            {
+                loading = True,
+                query = "",
+                results = [],
+                favorites = []
+            }
+       ,
         Http.get
            {
                 url = "/api/songs",
@@ -74,6 +78,10 @@ init flags =
                                 SongResults songResultDecoder
            }
    )
+
+-- Ports
+
+--port setFavorites: List String -> Cmd msg
 
 -- HTTP
 
