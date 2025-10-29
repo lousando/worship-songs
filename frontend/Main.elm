@@ -110,6 +110,7 @@ view model =
         if model.loading then
             div [ class "flex flex-row justify-center w-full" ]
             [
+                -- todo: add a cool loading animation here
                 text "Loading..."
             ]
         else
@@ -139,7 +140,7 @@ songRowColor: Int -> String
 songRowColor index =
     -- even
     if ((modBy 2 index) == 0) then
-        "bg-slate-100"
+        "bg-slate-100 dark:bg-slate-700"
     -- odd
     else
-        "bg-slate-300"
+        "bg-slate-300 dark:bg-slate-900"
