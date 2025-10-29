@@ -50,8 +50,7 @@ init _ =
         },
         Http.get
            {
-                -- todo: update to a real endpoint
-                url = "https://songs.lousando.xyz/api/songs",
+                url = "/api/songs",
                 expect = Http.expectJson
                                 SongResults songResultDecoder
            }
