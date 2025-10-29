@@ -13,11 +13,23 @@ import Json.Decode exposing (Decoder, field)
 main =
   Browser.element
   {
-    init = init,
+    init = (
+        \value ->
+          case (Json.Decode.decodeValue flagDecoder value) of
+              Ok flags ->
+                  init flags
+              Err _ ->
+                 init { favorites = [] }
+    ),
     update = update,
     subscriptions = subscriptions,
     view = view
   }
+
+type alias Flags =
+    {
+        favorites: List String
+    }
 
 type alias Document msg =
     {
@@ -25,13 +37,19 @@ type alias Document msg =
         body : List (Html msg)
     }
 
+flagDecoder: Decoder Flags
+flagDecoder =
+    Json.Decode.map Flags
+        (field "favorites" (Json.Decode.list Json.Decode.string))
+
 -- Model
 
 type alias Model =
     {
         loading: Bool,
         query: String,
-        results: List Song
+        results: List Song,
+        favorites: List String
     }
 
 type alias Song =
@@ -40,13 +58,14 @@ type alias Song =
         page: Int
     }
 
-init : () -> (Model, Cmd Msg)
-init _ =
+init: Flags -> (Model, Cmd Msg)
+init flags =
     (
         {
             loading = True,
             query = "",
-            results = []
+            results = [],
+            favorites = flags.favorites
         },
         Http.get
            {

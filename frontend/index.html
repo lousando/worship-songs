@@ -15,6 +15,18 @@
   <script type="module">
     import { Elm } from "./Main.elm";
 
-    Elm.Main.init({ node: document.getElementById("root") });
+    const favorites = JSON.parse(localStorage.getItem("favorites"));
+
+    const app = Elm.Main.init({
+      node: document.getElementById("root"),
+      flags: {
+        favorites,
+      }
+    });
+
+    // update on setStorage
+    // app.ports.setFavorites.subscribe(function(state) {
+    //   localStorage.setItem("favorites", JSON.stringify(state));
+    // });
   </script>
 </html>
