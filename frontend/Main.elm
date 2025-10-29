@@ -83,7 +83,7 @@ update msg model =
     SongResults httpResponse ->
       case httpResponse of
         Ok res ->
-          ({ model | results = res }, Cmd.none)
+          ({ model | loading = False, results = res }, Cmd.none)
         Err _ ->
           (model, Cmd.none)
 
@@ -107,14 +107,20 @@ view model =
             onInput Search,
             class "w-full"
         ] [],
-        div [ class "flex flex-col w-full" ]
-            (
-                model.results
-                |> List.filter (\r -> String.contains
-                                        (String.toLower model.query)
-                                        (String.toLower r.name))
-                |> List.indexedMap songRow
-            )
+        if model.loading then
+            div [ class "flex flex-row justify-center w-full" ]
+            [
+                text "Loading..."
+            ]
+        else
+            div [ class "flex flex-col w-full" ]
+                (
+                    model.results
+                    |> List.filter (\r -> String.contains
+                                            (String.toLower model.query)
+                                            (String.toLower r.name))
+                    |> List.indexedMap songRow
+                )
     ]
 
 -- View Utilities
