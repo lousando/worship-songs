@@ -1,57 +1,100 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Html exposing (Html, div, text, input, ul, li)
+import Html.Attributes exposing (class, placeholder, value)
+import Html.Events exposing (onInput)
+import List
+import Http
+import Json.Decode exposing (Decoder, field)
 
--- MAIN
+-- Main
 
 main =
-  Browser.sandbox { init = init, update = update, view = view }
+  Browser.element
+  {
+    init = init,
+    update = update,
+    subscriptions = subscriptions,
+    view = view
+  }
 
--- MODEL
+-- Model
 
-type alias Model = Int
+type alias Model =
+    {
+        loading: Bool,
+        query: String,
+        results: List Song
+    }
 
-init: Model
-init =
-  0
+type alias Song =
+    {
+        name: String,
+        pageNumber: String
+    }
 
--- UPDATE
+init : () -> (Model, Cmd Msg)
+init _ =
+    (
+        {
+            loading = True,
+            query = "",
+            results = []
+        },
+        Http.get
+           {
+                -- todo: update to a real endpoint
+                url = "https://jsonplaceholder.typicode.com/posts",
+                expect = Http.expectJson
+                                SongResults songResultDecoder
+           }
+   )
+
+-- HTTP
+
+songResultDecoder: Decoder (List Song)
+songResultDecoder =
+    Json.Decode.list (
+        Json.Decode.map2 Song
+            (field "name" Json.Decode.string)
+            (field "pageNumber" Json.Decode.string)
+    )
+
+-- Update
 
 type Msg
-  = Increment
-  | Decrement
+  = Search String
+  | SongResults (Result Http.Error (List Song))
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    Increment ->
-      model + 1
+    Search newQuery ->
+        (
+            { model | query = newQuery },
+            Cmd.none
+        )
+    SongResults httpResponse ->
+      case httpResponse of
+        Ok res ->
+          ({ model | results = res }, Cmd.none)
+        Err _ ->
+          (model, Cmd.none)
 
-    Decrement ->
-      model - 1
+-- Subscriptions
 
--- VIEW
+subscriptions: Model -> Sub Msg
+subscriptions model =
+  Sub.none
+
+-- View
 
 view : Model -> Html Msg
 view model =
-  div []
+  div [ class "" ]
     [
-        button [
-            onClick Decrement
-        ]
-        [
-            text "-"
-        ]
-        ,
-        div [] [
-            text (String.fromInt model)
-        ]
-        , button [
-            onClick Increment
-        ]
-        [
-            text "+"
-        ]
+        input [ placeholder "Search...", value model.query, onInput Search ] [],
+        ul []
+            (List.map (\r -> li[][text r.name]) model.results)
     ]
