@@ -100,7 +100,7 @@ view : Model -> Browser.Document Msg
 view model =
   Browser.Document "Worship Songs"
     [
-        input [ placeholder "Search...", value model.query, onInput Search ] [],
+        input [ Html.Attributes.type_ "search", placeholder "Search...", value model.query, onInput Search ] [],
         ul []
             (
                 model.results
