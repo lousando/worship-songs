@@ -48,6 +48,7 @@ type alias Model =
 
 type alias Song =
     {
+        id: String,
         name: String,
         page: Int
     }
@@ -88,7 +89,8 @@ init rawFlags =
 songResultDecoder: Decoder (List Song)
 songResultDecoder =
     Json.Decode.list (
-        Json.Decode.map2 Song
+        Json.Decode.map3 Song
+            (field "id" Json.Decode.string)
             (field "name" Json.Decode.string)
             (field "page" Json.Decode.int)
     )
@@ -104,7 +106,7 @@ update msg model =
   case msg of
     Search newQuery ->
         (
-            { model | query = newQuery },
+            { model | query = newQuery |> String.toLower |> String.trim },
             Cmd.none
         )
     SongResults httpResponse ->
@@ -144,17 +146,22 @@ view model =
             div [ class "flex flex-col w-full" ]
                 (
                     model.results
-                    |> List.filter (\r -> String.contains
-                                            (String.toLower model.query)
-                                            (String.toLower r.name))
+                    |> List.filter (\r -> songFilter model.query r.name)
                     |> List.indexedMap songRow
                 )
     ]
 
 -- View Utilities
+songFilter: String -> String -> Bool
+songFilter query songName =
+    String.contains
+        query
+        (songName |> String.toLower |> String.trim)
+
 songRow: Int -> Song -> Html msg
 songRow index row =
     div[
+        Html.Attributes.id ("song-" ++ row.id),
         class "flex flex-row justify-between leading-8 text-base",
         class (songRowColor index)
     ]
