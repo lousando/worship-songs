@@ -11,13 +11,27 @@ import Json.Decode exposing (Decoder, field)
 -- Main
 
 main =
-  Browser.element
+  Browser.document
   {
     init = init,
     update = update,
     subscriptions = subscriptions,
     view = view
   }
+
+--document :
+--  { init : flags -> ( model, Cmd msg )
+--  , view : model -> Document msg
+--  , update : msg -> model -> ( model, Cmd msg )
+--  , subscriptions : model -> Sub msg
+--  }
+--  -> Program flags model msg
+
+type alias Document msg =
+    {
+        title : String,
+        body : List (Html msg)
+    }
 
 -- Model
 
@@ -90,9 +104,9 @@ subscriptions model =
 
 -- View
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-  div [ class "" ]
+  Browser.Document "Worship Songs"
     [
         input [ placeholder "Search...", value model.query, onInput Search ] [],
         ul []
