@@ -14,5 +14,8 @@ node_modules
 # dist
 dist
 
+# parcel
+.parcel-cache
+
 # wrangler
 .wrangler

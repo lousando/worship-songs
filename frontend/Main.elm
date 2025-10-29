@@ -19,14 +19,6 @@ main =
     view = view
   }
 
---document :
---  { init : flags -> ( model, Cmd msg )
---  , view : model -> Document msg
---  , update : msg -> model -> ( model, Cmd msg )
---  , subscriptions : model -> Sub msg
---  }
---  -> Program flags model msg
-
 type alias Document msg =
     {
         title : String,
