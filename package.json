@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@elysiajs/cors": "^1.4.0",
     "@libsql/client": "^0.15.15",
     "elysia": "^1.4.13"
   },

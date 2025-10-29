@@ -1,5 +1,6 @@
 import { env } from "cloudflare:workers";
 import { Elysia, type Context } from "elysia";
+import { cors } from '@elysiajs/cors'
 
 import { createClient } from "@libsql/client";
 
@@ -9,6 +10,7 @@ export const turso = createClient({
 });
 
 const app = new Elysia({ aot: false, prefix: "/api" })
+    .use(cors())
     .get("/songs", async (context: Context) => {
         const { rows } = await turso.execute({
             sql: "SELECT page,name FROM songs",
