@@ -13,7 +13,7 @@ const app = new Elysia({ aot: false, prefix: "/api" })
     .use(cors())
     .get("/songs", async (context: Context) => {
         const { rows } = await turso.execute({
-            sql: "SELECT id,page,name FROM songs",
+            sql: "SELECT id,page,name FROM songs ORDER BY page",
             args: [],
         });
 
