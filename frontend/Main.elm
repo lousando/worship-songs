@@ -157,9 +157,6 @@ cleanSongName name =
     name
     |> String.toLower
     |> String.trim
-    -- todo: sanitize DB so these cases aren't needed
-    |> String.replace "'" ""
-    |> String.replace "’" ""
 
 songFilter: String -> String -> Bool
 songFilter query songName =
