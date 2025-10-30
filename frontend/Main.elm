@@ -137,7 +137,7 @@ view model =
             class "w-full"
         ] [],
         if model.loading then
-            div [ class "flex flex-row justify-center w-full" ]
+            div [ class "flex flex-row justify-center w-full animate-bounce" ]
             [
                 -- todo: add a cool loading animation here
                 text "Loading..."
