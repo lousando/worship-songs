@@ -1,12 +1,12 @@
-FROM oven/bun:1-debian
+FROM oven/bun:1-alpine
 
 WORKDIR /app
 
 COPY . .
 
-RUN apt update && apt install curl -y
+RUN apk add --no-cache curl
 RUN curl -sfS https://dotenvx.sh | sh
 RUN bun i --frozen-lockfile
-RUN bun run build
+RUN dotenvx run -f .env.production -- bun run build
 
 CMD dotenvx run -f .env.production -- bun start
