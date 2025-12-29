@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN apt install curl -y
 RUN curl -sfS https://dotenvx.sh | sh
 RUN bun i --frozen-lockfile
 RUN bun run build
