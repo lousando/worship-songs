@@ -14,8 +14,7 @@ FROM oven/bun:1-alpine AS final
 
 WORKDIR /app
 
-COPY --from=build /app/node_modules /app/node_modules
-COPY --from=build /app/.env.production /app/.env.production
+COPY --from=build /app /app
 
 RUN apk add --no-cache curl && curl -sfS https://dotenvx.sh | sh
 
