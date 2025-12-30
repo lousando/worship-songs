@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN corepack enable pnpm
 RUN pnpm i --frozen-lockfile
 RUN dotenvx run -f .env.production -- pnpm run build
 
