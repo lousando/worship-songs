@@ -1,0 +1,9 @@
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - elm
+  - esbuild
+  - lmdb
+  - msgpackr-extract
+  - sharp
+  - workerd

@@ -1,20 +1,10 @@
 {
   "scripts": {
-    "watch": "parcel frontend/index.html",
-    "build": "parcel build frontend/index.html",
-    "start": "bun run backend/index.ts"
-  },
-  "dependencies": {
-    "@elysiajs/cors": "^1.4.0",
-    "@libsql/client": "^0.15.15",
-    "elysia": "^1.4.13",
-    "hono": "^4.11.3"
+    "watch": "tailwindcss -i ./index.css -o ./dist/index.min.css --watch",
+    "build": "tailwindcss -i ./index.css -o ./dist/index.min.css"
   },
   "devDependencies": {
-    "@parcel/transformer-elm": "^2.16.0",
-    "@tailwindcss/postcss": "^4.1.16",
-    "parcel": "^2.16.0",
-    "tailwindcss": "^4.1.16",
-    "wrangler": "^4.45.1"
+    "@tailwindcss/cli": "^4.2.1",
+    "tailwindcss": "^4.2.1"
   }
 }

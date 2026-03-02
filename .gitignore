@@ -12,6 +12,9 @@ elm-stuff
 # node
 node_modules
 
+# go
+bin
+
 # dist
 dist
 

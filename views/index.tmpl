@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Primary Meta Tags -->
+    <title>Worship Songs</title>
+    <link
+        rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>"
+    />
+    <meta name="title" content="Worship Songs" />
+    <meta name="description" content="A digital index of Songs for Praise and Worship" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://songs.lousando.xyz/"/>
+    <meta property="og:title" content="Worship Songs"/>
+    <meta property="og:description" content="A digital index of Songs for Praise and Worship"/>
+
+    <!-- X (Twitter) -->
+    <meta property="twitter:card" content="summary_large_image"/>
+    <meta property="twitter:url" content="https://songs.lousando.xyz/"/>
+    <meta property="twitter:title" content="Worship Songs"/>
+    <meta property="twitter:description" content="A digital index of Songs for Praise and Worship"/>
+
+    <link href="/dist/index.min.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css"
+          integrity="sha384-tmaXBGDXDylqHmGdj38lMQk2xeYhgDuaYTcFdBofHNPMW1C+rCYIy85wiTmfMQ4J" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
+          integrity="sha384-Wh4i8JDLuRrfisLuCOOPRvvOenkPdgXL9ZEBJkvidYFs9ym6gGOkVhU5LkVGEnN5" crossorigin="anonymous">
+
+    {{/* htmx */}}
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="flex flex-col items-center">
+    <h1>Worship Songs</h1>
+
+    <input hx-get="/" hx-target="#songs"
+           hx-select="#songs"
+           hx-trigger="keyup changed delay:1000ms, keyup[key=='Enter']"
+           hx-push-url="true"
+           name="name" type="search"
+           placeholder="Search..."
+           value="{{ .Query }}"
+           class="w-full">
+
+    <div id="songs" class="flex flex-col w-full">
+        {{range $index, $song := .Songs}}
+            <div id="song-{{$song.Id}}" class="flex flex-row justify-between leading-8 text-base {{ GetSongRowColor $index }}">
+                <span class="text-left truncate">{{$song.Name}}</span>
+                <span class="text-right basis-[4ch]">{{$song.Page}}</span>
+            </div>
+        {{end}}
+    </div>
+</div>
+</body>
+</html>

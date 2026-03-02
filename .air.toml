@@ -1,0 +1,10 @@
+root = "."
+tmp_dir = "bin"
+
+[build]
+  args_bin = []
+  full_bin = "dotenvx run -f .env -- ./bin/main"
+  cmd = "go build -o ./bin/main ."
+  delay = 500
+  exclude_dir = ["static", "bin", "dist"]
+  include_ext = ["go", "tmpl"]

@@ -8,14 +8,18 @@ RUN corepack enable pnpm
 RUN pnpm i --frozen-lockfile
 RUN curl -sfS https://dotenvx.sh | sh
 RUN dotenvx run -f .env.production -- pnpm run build
+RUN rm -rf node_modules
 
 # =====================================================
-FROM oven/bun:1-alpine AS final
+FROM golang:1.25.4-alpine AS final
+
+EXPOSE 8080
 
 WORKDIR /app
 
 COPY --from=build /app /app
 
 RUN apk add --no-cache curl && curl -sfS https://dotenvx.sh | sh
+RUN go build -o ./bin/main .
 
-CMD dotenvx run -f .env.production -- bun start
+CMD dotenvx run -f .env.production -- ./bin/main
