@@ -6,8 +6,7 @@ COPY . .
 
 RUN corepack enable pnpm
 RUN pnpm i --frozen-lockfile
-RUN curl -sfS https://dotenvx.sh | sh
-RUN dotenvx run -f .env.production -- pnpm run build
+RUN pnpm run build
 RUN rm -rf node_modules
 
 # =====================================================
@@ -19,7 +18,7 @@ WORKDIR /app
 
 COPY --from=build /app /app
 
-RUN apk add --no-cache curl && curl -sfS https://dotenvx.sh | sh
+RUN apk add --no-cache curl
 RUN go build -o ./bin/main .
 
 CMD ./bin/main
