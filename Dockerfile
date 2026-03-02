@@ -22,4 +22,4 @@ COPY --from=build /app /app
 RUN apk add --no-cache curl && curl -sfS https://dotenvx.sh | sh
 RUN go build -o ./bin/main .
 
-CMD dotenvx run -f .env.production -- ./bin/main
+CMD ./bin/main
