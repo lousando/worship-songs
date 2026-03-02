@@ -12,6 +12,8 @@ RUN rm -rf node_modules
 # =====================================================
 FROM golang:1.25.4-alpine AS final
 
+LABEL org.opencontainers.image.source https://github.com/lousando/worship-songs
+
 EXPOSE 8080
 
 WORKDIR /app
