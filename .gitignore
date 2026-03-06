@@ -2,12 +2,8 @@
 .idea/
 *.iml
 
-# env
-.env
-.env.keys
-
-# elm
-elm-stuff
+# mise
+mise.local.toml
 
 # node
 node_modules
@@ -17,10 +13,3 @@ bin
 
 # dist
 dist
-
-# parcel
-.parcel-cache
-
-# wrangler
-.wrangler
-
