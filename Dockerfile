@@ -22,5 +22,6 @@ COPY --from=build /app /app
 RUN apk add --no-cache curl mise
 RUN go build -o ./bin/main .
 RUN mise trust # trust the mise.toml file
+RUN mise version
 
 CMD ["mise", "x", "--", "./bin/main"]
