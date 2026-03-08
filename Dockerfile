@@ -24,7 +24,7 @@ ENV MISE_VERSION=v2026.3.4
 
 RUN apk add --no-cache curl
 RUN curl https://mise.run | sh
-RUN mise trust # trust the mise.toml file
+RUN mise trust && mise install # trust the mise.toml file
 RUN go build -o ./bin/main .
 
 CMD ["mise", "x", "--", "./bin/main"]
