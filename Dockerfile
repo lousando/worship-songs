@@ -27,4 +27,4 @@ RUN curl https://mise.run | sh
 RUN mise trust && mise install # trust the mise.toml file
 RUN go build -o ./bin/main .
 
-CMD ["mise", "x", "--", "./bin/main"]
+CMD ["mise", "x", "--no-prepare", "--", "./bin/main"]
