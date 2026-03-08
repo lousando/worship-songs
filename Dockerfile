@@ -19,9 +19,12 @@ WORKDIR /app
 
 COPY --from=build /app /app
 
-RUN apk add --no-cache curl mise
-RUN go build -o ./bin/main .
+ENV MISE_INSTALL_PATH=/usr/local/bin/mise
+ENV MISE_VERSION=v2026.3.4
+
+RUN apk add --no-cache curl
+RUN curl https://mise.run | sh
 RUN mise trust # trust the mise.toml file
-RUN mise version
+RUN go build -o ./bin/main .
 
 CMD ["mise", "x", "--", "./bin/main"]
